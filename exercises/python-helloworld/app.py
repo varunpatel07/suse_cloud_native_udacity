@@ -1,7 +1,12 @@
 import json
-from flask import Flask
+from flask import Flask, render_template 
 import logging
-app = Flask(__name__)
+app = Flask(__name__,template_folder='template')
+
+@app.route('/logs')
+def log():
+    with open(r'D:\udacity\exercises\python-helloworld\app.log', 'r') as f: 
+        return render_template('logs.html', text=f.read()) 
 
 @app.route("/")
 def hello():
@@ -30,6 +35,8 @@ def metric():
         mimetype='application/json'
         )
     return response
+
+
 
 if __name__ == "__main__":
     handler=[logging.FileHandler(r'D:\udacity\exercises\python-helloworld\app.log'),logging.StreamHandler()]
